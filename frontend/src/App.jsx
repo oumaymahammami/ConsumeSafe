@@ -4,14 +4,18 @@ import Header from "./components/Header.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import ProductCard from "./components/ProductCard.jsx";
 import AddProductModal from "./components/AddProductModal.jsx";
+import LoginModal from "./components/LoginModal.jsx";
+import { useAuth } from "./auth/AuthContext.jsx";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5050";
 
 export default function App() {
+  const { isAdmin } = useAuth();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openAdd, setOpenAdd] = useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
 
   const isEmpty = useMemo(() => query.trim().length === 0, [query]);
 
@@ -43,7 +47,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen relative">
-      <Header onAdd={() => setOpenAdd(true)} />
+      <Header onAdd={() => setOpenAdd(true)} onLogin={() => setOpenLogin(true)} />
       <main className="mx-auto max-w-6xl px-4 pb-16 relative z-10">
         <div className="mt-12">
           <SearchBar value={query} onChange={setQuery} />
@@ -71,12 +75,16 @@ export default function App() {
               <div className="text-5xl mb-4">🔍</div>
               <p className="text-2xl font-bold text-white">لا توجد نتائج</p>
               <p className="mt-3 text-lg text-slate-300">No match found • جرب اسم منتج آخر أو أضفه إلى قاعدة البيانات</p>
-              <button
-                className="mt-6 rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-8 py-4 font-bold text-white text-lg hover:from-red-500 hover:to-red-600 transition-all shadow-lg hover:shadow-red-900/50"
-                onClick={() => setOpenAdd(true)}
-              >
-                ➕ أضف منتج جديد
-              </button>
+              {isAdmin ? (
+                <button
+                  className="mt-6 rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-8 py-4 font-bold text-white text-lg hover:from-red-500 hover:to-red-600 transition-all shadow-lg hover:shadow-red-900/50"
+                  onClick={() => setOpenAdd(true)}
+                >
+                  ➕ أضف منتج جديد
+                </button>
+              ) : (
+                <p className="mt-6 text-slate-400 italic">Login as admin to add products</p>
+              )}
             </div>
           ) : (
             <>
@@ -95,6 +103,7 @@ export default function App() {
         </div>
 
         <AddProductModal open={openAdd} onClose={() => setOpenAdd(false)} api={API} />
+        <LoginModal open={openLogin} onClose={() => setOpenLogin(false)} />
       </main>
 
       <footer className="border-t border-red-900/40 bg-slate-950/90 py-8 text-center text-sm text-slate-400 relative z-10">

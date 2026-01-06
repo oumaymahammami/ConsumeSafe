@@ -1,29 +1,43 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
+import { query } from "./postgres.js";
 
-export let db;
+let initialized = false;
 
 export async function initDb() {
-  if (db) return db;
-
-  db = await open({
-    filename: "./src/db/consumesafe.sqlite",
-    driver: sqlite3.Database
-  });
-
-  await db.exec(`
-    CREATE TABLE IF NOT EXISTS products (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      brand TEXT,
-      category TEXT,
-      country TEXT,
-      isBoycotted INTEGER NOT NULL DEFAULT 0,
-      reason TEXT,
-      tunisianAlternative TEXT,
-      createdAt TEXT NOT NULL
-    );
-  `);
-
-  return db;
+  if (initialized) return;
+  
+  try {
+    await query(`
+      CREATE TABLE IF NOT EXISTS products (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        brand TEXT DEFAULT '',
+        category TEXT DEFAULT '',
+        country TEXT DEFAULT '',
+        "isBoycotted" BOOLEAN NOT NULL DEFAULT FALSE,
+        reason TEXT DEFAULT '',
+        "tunisianAlternative" TEXT DEFAULT '',
+        "createdAt" TIMESTAMP NOT NULL DEFAULT NOW()
+      );
+    `);
+    
+    // Create indexes for better search performance
+    await query(`
+      CREATE INDEX IF NOT EXISTS idx_products_name ON products(LOWER(name));
+    `);
+    
+    await query(`
+      CREATE INDEX IF NOT EXISTS idx_products_brand ON products(LOWER(brand));
+    `);
+    
+    await query(`
+      CREATE INDEX IF NOT EXISTS idx_products_boycotted ON products("isBoycotted");
+    `);
+    
+    initialized = true;
+    console.log("✅ Database initialized with PostgreSQL");
+  } catch (err) {
+    console.error("❌ Database initialization failed:", err);
+    throw err;
+  }
 }
+

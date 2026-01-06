@@ -1,5 +1,7 @@
-import { initDb } from "./init.js";
-import { query, closePool } from "./postgres.js";
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+
+const prisma = new PrismaClient();
 
 const sampleProducts = [
   { name: "Coca-Cola", brand: "The Coca-Cola Company", category: "Beverage", country: "USA", isBoycotted: true, reason: "Supports controversial policies", tunisianAlternative: "Boga" },
@@ -14,32 +16,40 @@ const sampleProducts = [
   { name: "Safia Water", brand: "SFBT", category: "Beverage", country: "Tunisia", isBoycotted: false, reason: "", tunisianAlternative: "" }
 ];
 
-async function seed() {
-  try {
-    await initDb();
-    
-    // Clear existing data
-    await query("TRUNCATE products RESTART IDENTITY CASCADE;");
-    console.log("✅ Products table truncated");
+async function main() {
+  console.log("🗑️  Clearing database...");
+  await prisma.product.deleteMany();
 
-    console.log(`📦 Loading ${sampleProducts.length} products into database...`);
-
-    for (const p of sampleProducts) {
-      await query(
-        `INSERT INTO products (name, brand, category, country, "isBoycotted", reason, "tunisianAlternative", "createdAt")
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-        [p.name, p.brand, p.category, p.country, p.isBoycotted, p.reason, p.tunisianAlternative, new Date().toISOString()]
-      );
+  console.log("👤 Creating admin user...");
+  await prisma.user.upsert({
+    where: { email: "admin@consumesafe.tn" },
+    update: {},
+    create: {
+      email: "admin@consumesafe.tn",
+      password: await bcrypt.hash("Admin123!", 12),
+      role: "ADMIN"
     }
+  });
 
-    console.log("✅ Seed complete. المنتجات تم إدخالها بنجاح.");
-    console.log(`✅ ${sampleProducts.length} products added to database.`);
-  } catch (e) {
-    console.error("❌ Seed failed:", e.message);
-    process.exit(1);
-  } finally {
-    await closePool();
+  console.log(`📦 Loading ${sampleProducts.length} products into database...`);
+  
+  for (const p of sampleProducts) {
+    await prisma.product.create({
+      data: p
+    });
   }
+
+  console.log("✅ Seed complete. المنتجات تم إدخالها بنجاح.");
+  console.log(`✅ Admin user: admin@consumesafe.tn / Admin123!`);
+  console.log(`✅ ${sampleProducts.length} products added to database.`);
 }
 
-seed();
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error("❌ Seed failed:", e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
