@@ -11,7 +11,6 @@ RUN npm ci --omit=dev
 
 # Copy only source code (not node_modules thanks to .dockerignore)
 COPY src ./src
-COPY consumesafe_large_seed.json ./
 
 # Set environment
 ENV NODE_ENV=production
