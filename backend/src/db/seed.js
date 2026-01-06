@@ -12,7 +12,7 @@ const sampleProducts = [
   { name: "Red Bull", brand: "Red Bull GmbH", category: "Energy Drink", country: "Austria", isBoycotted: false, reason: "", tunisianAlternative: "" },
   { name: "Monster Energy", brand: "Monster Beverage", category: "Energy Drink", country: "USA", isBoycotted: false, reason: "", tunisianAlternative: "" },
   { name: "Nestlé Water", brand: "Nestlé", category: "Beverage", country: "Switzerland", isBoycotted: true, reason: "Water resource exploitation", tunisianAlternative: "Safia, Ain Garci" },
-  { name: "Evian", brand: "Danone", category: "Beverage", country: "France", isBoycotted: false, reason: "", tunisianAlternative: "Safia" },
+  { name: "Evian", brand: "Danone", category: "Beverage", country: "France", isBoycotted: true, reason: "Supports controversial policies", tunisianAlternative: "Safia, Ain Garci, Melliti" },
   { name: "Starbucks Coffee", brand: "Starbucks", category: "Beverage", country: "USA", isBoycotted: true, reason: "Controversial business practices", tunisianAlternative: "Café Bondin, Maison du Café" },
   { name: "Nescafé", brand: "Nestlé", category: "Beverage", country: "Switzerland", isBoycotted: true, reason: "Part of Nestlé group", tunisianAlternative: "Café Bondin" },
   { name: "Lipton Ice Tea", brand: "Unilever/PepsiCo", category: "Beverage", country: "USA", isBoycotted: true, reason: "Joint venture with PepsiCo", tunisianAlternative: "Boga Ice Tea" },
@@ -57,7 +57,7 @@ const sampleProducts = [
   { name: "Poulina Chips", brand: "Poulina", category: "Snacks", country: "Tunisia", isBoycotted: false, reason: "", tunisianAlternative: "" },
   
   // Dairy Products
-  { name: "Danone Yogurt", brand: "Danone", category: "Dairy", country: "France", isBoycotted: false, reason: "", tunisianAlternative: "Delice Danone Tunisia" },
+  { name: "Danone Yogurt", brand: "Danone", category: "Dairy", country: "France", isBoycotted: true, reason: "Supports controversial policies", tunisianAlternative: "Vitalait, Soummam" },
   { name: "Delice Yogurt", brand: "Delice Danone", category: "Dairy", country: "Tunisia", isBoycotted: false, reason: "", tunisianAlternative: "" },
   { name: "Vitalait Milk", brand: "Vitalait", category: "Dairy", country: "Tunisia", isBoycotted: false, reason: "", tunisianAlternative: "" },
   { name: "Président Cheese", brand: "Lactalis", category: "Dairy", country: "France", isBoycotted: false, reason: "", tunisianAlternative: "Sicam Cheese" },
@@ -144,7 +144,7 @@ const sampleProducts = [
   // More Tunisian Dairy & Yogurt
   { name: "Délice Yaourt", brand: "Délice Danone", category: "Dairy", country: "Tunisia", isBoycotted: false, reason: "", tunisianAlternative: "" },
   { name: "Délice Danette", brand: "Délice Danone", category: "Dairy", country: "Tunisia", isBoycotted: false, reason: "", tunisianAlternative: "" },
-  { name: "Activia Yogurt", brand: "Danone", category: "Dairy", country: "France", isBoycotted: false, reason: "", tunisianAlternative: "Délice Yaourt" },
+  { name: "Activia Yogurt", brand: "Danone", category: "Dairy", country: "France", isBoycotted: true, reason: "Supports controversial policies", tunisianAlternative: "Vitalait, Soummam" },
   { name: "Vitalait Lait", brand: "Vitalait", category: "Dairy", country: "Tunisia", isBoycotted: false, reason: "", tunisianAlternative: "" },
   { name: "Vitalait Fromage", brand: "Vitalait", category: "Dairy", country: "Tunisia", isBoycotted: false, reason: "", tunisianAlternative: "" },
   { name: "Soummam Lait", brand: "Soummam", category: "Dairy", country: "Algeria", isBoycotted: false, reason: "", tunisianAlternative: "" },
@@ -215,7 +215,7 @@ const sampleProducts = [
   // Baby Products
   { name: "Pampers", brand: "Procter & Gamble", category: "Baby Care", country: "USA", isBoycotted: true, reason: "Corporate policies", tunisianAlternative: "Baby Plus" },
   { name: "Baby Plus", brand: "Baby Plus", category: "Baby Care", country: "Tunisia", isBoycotted: false, reason: "", tunisianAlternative: "" },
-  { name: "Bledina", brand: "Danone", category: "Baby Food", country: "France", isBoycotted: false, reason: "", tunisianAlternative: "" },
+  { name: "Bledina", brand: "Danone", category: "Baby Food", country: "France", isBoycotted: true, reason: "Supports controversial policies", tunisianAlternative: "Local baby food brands" },
   { name: "Nestlé Baby Food", brand: "Nestlé", category: "Baby Food", country: "Switzerland", isBoycotted: true, reason: "Part of Nestlé group", tunisianAlternative: "Bledina" },
   
   // Cigarettes (for awareness)
