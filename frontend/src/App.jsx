@@ -62,7 +62,7 @@ export default function App() {
                 ابحث عن المنتجات للتحقق من قائمة المقاطعة واكتشاف البدائل التونسية
               </p>
               <p className="text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                Type a product name or brand to check if it's boycotted and discover Tunisian alternatives that support our local economy.
+                Type a product name or brand to check if it&apos;s boycotted and discover Tunisian alternatives that support our local economy.
               </p>
             </div>
           ) : loading ? (
