@@ -1,28 +1,5 @@
-# Dependencies
-node_modules/
-**/node_modules/
-
-# Database
-*.sqlite
-*.db
-
-# Environment variables
-.env
-.env.local
-
-# Build outputs
-dist/
-build/
-*.log
-
-# IDE
-.vscode/
-.idea/
-*.sw
-
-# OS
+**/node_modules
+**/.env
+backend/src/db/consumesafe.sqlite
+frontend/dist
 .DS_Store
-Thumbs.db
-
-# Misc
-*.tgz
